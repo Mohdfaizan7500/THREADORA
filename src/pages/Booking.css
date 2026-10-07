@@ -1,0 +1,259 @@
+.booking__head {
+  margin-bottom: 30px;
+}
+
+.booking__head h1 {
+  font-size: clamp(1.9rem, 4vw, 2.8rem);
+  margin: 6px 0 6px;
+}
+
+.booking__grid {
+  display: grid;
+  grid-template-columns: 1fr 400px;
+  gap: 32px;
+  align-items: start;
+  padding-bottom: 64px;
+}
+
+.booking__form {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+
+.booking__card {
+  padding: 28px;
+}
+
+.booking__card-head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 22px;
+}
+
+.booking__card-head h2 {
+  font-size: 1.3rem;
+}
+
+.booking__step {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: var(--color-primary);
+  color: var(--color-white);
+  display: grid;
+  place-items: center;
+  font-size: 0.85rem;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0 18px;
+}
+
+.form-grid__full {
+  grid-column: 1 / -1;
+}
+
+/* Options */
+.option-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.option {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 16px 18px;
+  border: 1.5px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  cursor: pointer;
+  transition: border-color var(--transition), background var(--transition), box-shadow var(--transition);
+}
+
+.option:hover {
+  border-color: var(--color-primary);
+}
+
+.option.is-active {
+  border-color: var(--color-accent);
+  background: rgba(182, 140, 90, 0.06);
+  box-shadow: 0 0 0 3px rgba(182, 140, 90, 0.1);
+}
+
+.option input {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.option__radio {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 2px solid var(--color-border);
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  transition: border-color var(--transition);
+}
+
+.option.is-active .option__radio {
+  border-color: var(--color-accent);
+}
+
+.option.is-active .option__radio::after {
+  content: '';
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--color-accent);
+}
+
+.option__icon {
+  width: 42px;
+  height: 42px;
+  border-radius: var(--radius-md);
+  background: var(--color-background);
+  display: grid;
+  place-items: center;
+  color: var(--color-primary);
+  flex-shrink: 0;
+}
+
+.option__body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.option__body strong {
+  font-size: 0.95rem;
+}
+
+.option__body span {
+  font-size: 0.8rem;
+  color: var(--color-secondary);
+}
+
+.option__price {
+  font-weight: 700;
+  font-size: 0.9rem;
+}
+
+.booking__demo-note {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 16px;
+  font-size: 0.82rem;
+  color: var(--color-secondary);
+}
+
+.booking__demo-note svg {
+  color: var(--color-accent);
+}
+
+/* Summary */
+.booking__summary {
+  position: sticky;
+  top: calc(var(--nav-height) + 20px);
+}
+
+.booking__items {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  max-height: 280px;
+  overflow-y: auto;
+  padding-bottom: 18px;
+  margin-bottom: 18px;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.booking__item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.booking__item img {
+  width: 52px;
+  height: 62px;
+  object-fit: cover;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--color-border);
+}
+
+.booking__item-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.booking__item-name {
+  font-size: 0.86rem;
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.booking__item-info .muted {
+  font-size: 0.76rem;
+}
+
+.booking__item-price {
+  font-weight: 600;
+  font-size: 0.86rem;
+}
+
+.booking__addr-preview {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  margin-top: 18px;
+  padding: 13px 15px;
+  border-radius: var(--radius-md);
+  background: var(--color-background);
+  font-size: 0.82rem;
+  color: var(--color-secondary);
+}
+
+.booking__addr-preview svg {
+  color: var(--color-accent);
+  flex-shrink: 0;
+}
+
+@media (max-width: 960px) {
+  .booking__grid {
+    grid-template-columns: 1fr;
+  }
+  .booking__summary {
+    position: static;
+  }
+}
+
+@media (max-width: 560px) {
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+  .booking__card {
+    padding: 20px;
+  }
+  .option {
+    flex-wrap: wrap;
+  }
+  .option__price {
+    margin-left: 76px;
+  }
+}

@@ -1,0 +1,218 @@
+.shop__banner {
+  padding: 40px 0 30px;
+  background: linear-gradient(180deg, var(--color-white), var(--color-background));
+  border-bottom: 1px solid var(--color-border);
+}
+
+.shop__banner h1 {
+  font-size: clamp(2rem, 4vw, 3rem);
+  margin: 8px 0 10px;
+}
+
+.shop__layout {
+  display: grid;
+  grid-template-columns: 270px 1fr;
+  gap: 40px;
+  padding: 40px 0 60px;
+}
+
+.shop__sidebar {
+  align-self: start;
+  position: sticky;
+  top: calc(var(--nav-height) + 16px);
+  max-height: calc(100vh - var(--nav-height) - 32px);
+  overflow-y: auto;
+  padding-right: 6px;
+}
+
+.shop__sidebar::-webkit-scrollbar {
+  width: 5px;
+}
+.shop__sidebar::-webkit-scrollbar-thumb {
+  background: var(--color-border);
+  border-radius: 3px;
+}
+
+.shop__toolbar {
+  margin-bottom: 26px;
+}
+
+.shop__search {
+  position: relative;
+  margin-bottom: 16px;
+}
+
+.shop__search input {
+  width: 100%;
+  padding: 13px 46px 13px 18px;
+  border: 1.5px solid var(--color-border);
+  border-radius: var(--radius-pill);
+  background: var(--color-white);
+  outline: none;
+  transition: border-color var(--transition), box-shadow var(--transition);
+}
+
+.shop__search input:focus {
+  border-color: var(--color-accent);
+  box-shadow: 0 0 0 4px rgba(182, 140, 90, 0.14);
+}
+
+.shop__search .icon-btn {
+  position: absolute;
+  right: 6px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 34px;
+  height: 34px;
+}
+
+.shop__toolbar-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+.shop__filter-btn {
+  display: none;
+  position: relative;
+}
+
+.shop__filter-count {
+  background: var(--color-accent);
+  color: var(--color-white);
+  font-size: 0.68rem;
+  font-weight: 700;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 5px;
+  border-radius: var(--radius-pill);
+  display: grid;
+  place-items: center;
+}
+
+.shop__count {
+  font-size: 0.88rem;
+  color: var(--color-secondary);
+}
+
+.shop__count strong {
+  color: var(--color-primary);
+}
+
+.shop__sort {
+  position: relative;
+  margin-left: auto;
+}
+
+.shop__sort .select {
+  appearance: none;
+  padding: 10px 38px 10px 16px;
+  border-radius: var(--radius-pill);
+  font-size: 0.86rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.shop__sort-icon {
+  position: absolute;
+  right: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+  color: var(--color-secondary);
+}
+
+.shop__view {
+  display: flex;
+  gap: 4px;
+  padding: 3px;
+  border: 1.5px solid var(--color-border);
+  border-radius: var(--radius-pill);
+  background: var(--color-white);
+}
+
+.shop__view-btn {
+  width: 36px;
+  height: 34px;
+  border-radius: var(--radius-pill);
+  display: grid;
+  place-items: center;
+  color: var(--color-secondary);
+  transition: all var(--transition);
+}
+
+.shop__view-btn.is-active {
+  background: var(--color-primary);
+  color: var(--color-white);
+}
+
+.shop__active {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 16px;
+  align-items: center;
+}
+
+.chip-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 6px 8px 6px 13px;
+  border-radius: var(--radius-pill);
+  background: var(--color-white);
+  border: 1px solid var(--color-border);
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+
+.chip-tag button {
+  display: grid;
+  place-items: center;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--color-background);
+  color: var(--color-secondary);
+  transition: all var(--transition);
+}
+
+.chip-tag button:hover {
+  background: var(--color-danger);
+  color: var(--color-white);
+}
+
+.shop__clear {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--color-accent);
+  margin-left: 4px;
+}
+
+@media (max-width: 1024px) {
+  .shop__layout {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+  .shop__sidebar {
+    display: none;
+  }
+  .shop__filter-btn {
+    display: inline-flex;
+  }
+}
+
+@media (max-width: 560px) {
+  .shop__sort {
+    margin-left: 0;
+    flex: 1;
+  }
+  .shop__sort .select {
+    width: 100%;
+  }
+  .shop__count {
+    order: -1;
+    width: 100%;
+  }
+}

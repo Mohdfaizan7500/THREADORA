@@ -1,0 +1,136 @@
+.booking-success__inner {
+  max-width: 760px;
+  text-align: center;
+  padding-bottom: 80px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.booking-success__badge {
+  width: 92px;
+  height: 92px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: rgba(46, 139, 87, 0.12);
+  color: var(--color-success);
+  margin-bottom: 22px;
+  animation: scaleIn 0.5s var(--ease) both, pulseRing 2.4s 0.6s infinite;
+}
+
+.booking-success__inner h1 {
+  font-size: clamp(1.9rem, 4vw, 2.8rem);
+  margin: 10px 0 12px;
+}
+
+.booking-success__sub {
+  max-width: 480px;
+  margin-bottom: 26px;
+}
+
+.booking-success__order-id {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 13px 22px;
+  border-radius: var(--radius-pill);
+  background: var(--color-white);
+  border: 1.5px dashed var(--color-accent);
+  font-size: 1.05rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  margin-bottom: 34px;
+  transition: background var(--transition), transform var(--transition);
+}
+
+.booking-success__order-id:hover {
+  background: rgba(182, 140, 90, 0.08);
+  transform: translateY(-2px);
+}
+
+.booking-success__order-id svg:first-child {
+  color: var(--color-accent);
+}
+
+.booking-success__order-id svg:last-child {
+  color: var(--color-secondary);
+}
+
+.booking-success__cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px;
+  width: 100%;
+  margin-bottom: 26px;
+}
+
+.success-info {
+  padding: 22px 18px;
+  border-radius: var(--radius-lg);
+  background: var(--color-white);
+  border: 1px solid var(--color-border);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+
+.success-info.is-highlight {
+  background: rgba(182, 140, 90, 0.07);
+  border-color: rgba(182, 140, 90, 0.3);
+}
+
+.success-info__icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--color-background);
+  display: grid;
+  place-items: center;
+  color: var(--color-accent);
+  margin-bottom: 4px;
+}
+
+.success-info__label {
+  font-size: 0.74rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--color-secondary);
+  font-weight: 600;
+}
+
+.success-info__value {
+  font-size: 1rem;
+}
+
+.booking-success__notice {
+  padding: 16px 20px;
+  border-radius: var(--radius-md);
+  background: var(--color-white);
+  border: 1px solid var(--color-border);
+  font-size: 0.88rem;
+  color: var(--color-secondary);
+  margin-bottom: 30px;
+  max-width: 560px;
+}
+
+.booking-success__actions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+@media (max-width: 640px) {
+  .booking-success__cards {
+    grid-template-columns: 1fr;
+  }
+  .booking-success__actions {
+    flex-direction: column;
+    width: 100%;
+  }
+  .booking-success__actions .btn {
+    width: 100%;
+  }
+}
