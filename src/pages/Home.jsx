@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { ArrowRight, Truck, ShieldCheck, Sparkles, Quote } from 'lucide-react'
 import { STATS, REVIEWS } from '../data/content.js'
@@ -9,23 +10,37 @@ import Newsletter from '../components/Newsletter.jsx'
 import { SkeletonGrid } from '../components/Loader.jsx'
 import './Home.css'
 
-const FEATURED_CATEGORIES = ['mens-shirts', 'womens-dresses', 'mens-shoes', 'womens-bags', 'sunglasses', 'mens-watches']
-
-const APPAREL_CATEGORIES = [
+// DummyJSON clothing-related categories shown on the home screen.
+const CLOTHING_CATEGORIES = [
   'mens-shirts', 'mens-shoes', 'mens-watches', 'tops', 'womens-dresses',
   'womens-shoes', 'womens-bags', 'womens-jewellery', 'womens-watches', 'sunglasses',
 ]
 
+const PAGE_STEP = 15
+
 export default function Home() {
   const { products, categories, loading } = useProducts()
-  const apparel = products.filter((p) => APPAREL_CATEGORIES.includes(p.category))
-  const trending = (apparel.length ? apparel : products).slice(0, 10)
+  const [activeCat, setActiveCat] = useState('all')
+  const [visible, setVisible] = useState(PAGE_STEP)
 
-  const topCategories = FEATURED_CATEGORIES
+  const clothing = products.filter((p) => CLOTHING_CATEGORIES.includes(p.category))
+  const pool = clothing.length ? clothing : products
+
+  const stripCats = CLOTHING_CATEGORIES
     .map((id) => categories.find((c) => c.id === id))
     .filter(Boolean)
-    .slice(0, 4)
-  const featured = topCategories.length ? topCategories : categories.slice(0, 4)
+
+  const filtered = activeCat === 'all' ? pool : pool.filter((p) => p.category === activeCat)
+  const shown = filtered.slice(0, visible)
+  const hasMore = filtered.length > shown.length
+
+  const selectCat = (id) => {
+    setActiveCat(id)
+    setVisible(PAGE_STEP)
+  }
+
+  const activeTitle =
+    activeCat === 'all' ? 'All Products' : categories.find((c) => c.id === activeCat)?.title
 
   return (
     <div className="home">
@@ -68,65 +83,95 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Featured categories */}
-      <section className="section">
+      {/* Horizontal category strip */}
+      <section className="section section--tight">
         <div className="container">
           <div className="section-head">
             <div>
               <span className="section-head__eyebrow">Shop by category</span>
-              <h2>Find your everyday essentials</h2>
+              <h2>Browse the collection</h2>
             </div>
             <Link className="btn btn--ghost" to="/shop">
               View all <ArrowRight size={16} />
             </Link>
           </div>
 
-          <div className="category-grid">
-            {loading && featured.length === 0
-              ? Array.from({ length: 4 }).map((_, i) => (
-                  <div key={i} className="category-card skeleton skeleton--img" />
-                ))
-              : featured.map((c, i) => (
-                  <Link to={`/shop?category=${c.id}`} key={c.id} className={`category-card category-card--${i % 4}`}>
-                    <img
-                      src={categoryImage(c.id) || categoryImage(c.type)}
-                      alt={c.title}
-                      loading="lazy"
-                    />
-                    <div className="category-card__overlay">
-                      <h3>{c.title}</h3>
-                      <span className="category-card__cta">
-                        Explore <ArrowRight size={14} />
-                      </span>
-                    </div>
-                  </Link>
-                ))}
+          <div className="cat-strip" role="tablist" aria-label="Product categories">
+            <button
+              role="tab"
+              aria-selected={activeCat === 'all'}
+              className={`cat-chip ${activeCat === 'all' ? 'is-active' : ''}`}
+              onClick={() => selectCat('all')}
+            >
+              <span className="cat-chip__img cat-chip__img--all">
+                <Sparkles size={22} />
+              </span>
+              <span className="cat-chip__label">All</span>
+            </button>
+
+            {(loading && stripCats.length === 0
+              ? Array.from({ length: 8 })
+              : stripCats
+            ).map((c, i) =>
+              c ? (
+                <button
+                  key={c.id}
+                  role="tab"
+                  aria-selected={activeCat === c.id}
+                  className={`cat-chip ${activeCat === c.id ? 'is-active' : ''}`}
+                  onClick={() => selectCat(c.id)}
+                >
+                  <span className="cat-chip__img">
+                    <img src={categoryImage(c.id) || categoryImage(c.type)} alt={c.title} loading="lazy" />
+                  </span>
+                  <span className="cat-chip__label">{c.title}</span>
+                </button>
+              ) : (
+                <span key={i} className="cat-chip cat-chip--skeleton">
+                  <span className="cat-chip__img skeleton" />
+                  <span className="cat-chip__label skeleton skeleton--line" />
+                </span>
+              ),
+            )}
           </div>
         </div>
       </section>
 
-      {/* Trending */}
+      {/* Products */}
       <section className="section section--tight">
         <div className="container">
           <div className="section-head">
             <div>
               <span className="section-head__eyebrow">Loved by many</span>
-              <h2>Trending right now</h2>
-              <p>Our most-wanted pieces this season, restocked and ready to wear.</p>
+              <h2>{activeTitle}</h2>
+              <p>{filtered.length} products, restocked and ready to wear.</p>
             </div>
             <Link className="btn btn--ghost" to="/shop?sort=rating">
               Shop all <ArrowRight size={16} />
             </Link>
           </div>
 
-          {loading && trending.length === 0 ? (
-            <SkeletonGrid count={10} />
+          {loading && shown.length === 0 ? (
+            <SkeletonGrid count={PAGE_STEP} />
           ) : (
-            <div className="product-grid">
-              {trending.map((p) => (
-                <ProductCard key={p.id} product={p} />
-              ))}
-            </div>
+            <>
+              <div className="product-grid product-grid--dense">
+                {shown.map((p) => (
+                  <ProductCard key={p.id} product={p} expandable />
+                ))}
+              </div>
+
+              {hasMore && (
+                <div className="load-more">
+                  <button
+                    className="btn btn--outline"
+                    onClick={() => setVisible((v) => v + PAGE_STEP)}
+                  >
+                    Load more
+                  </button>
+                </div>
+              )}
+            </>
           )}
         </div>
       </section>

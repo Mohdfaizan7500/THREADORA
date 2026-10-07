@@ -64,6 +64,34 @@ export function CartProvider({ children }) {
     [items],
   )
 
+  const getItem = useCallback(
+    (productId, size, color) =>
+      items.find((i) => i.key === cartItemKey(productId, size, color)) || null,
+    [items],
+  )
+
+  const decrement = useCallback(
+    (productId, size, color) => {
+      const key = cartItemKey(productId, size, color)
+      setItems((prev) =>
+        prev
+          .map((i) => (i.key === key ? { ...i, quantity: i.quantity - 1 } : i))
+          .filter((i) => i.quantity > 0),
+      )
+    },
+    [setItems],
+  )
+
+  const increment = useCallback(
+    (productId, size, color) => {
+      const key = cartItemKey(productId, size, color)
+      setItems((prev) =>
+        prev.map((i) => (i.key === key ? { ...i, quantity: i.quantity + 1 } : i)),
+      )
+    },
+    [setItems],
+  )
+
   const value = useMemo(() => {
     const subtotal = sumCart(items)
     const mrpTotal = sumMrp(items)
@@ -85,8 +113,11 @@ export function CartProvider({ children }) {
       removeItem,
       clearCart,
       isInCart,
+      getItem,
+      increment,
+      decrement,
     }
-  }, [items, addItem, updateQuantity, removeItem, clearCart, isInCart])
+  }, [items, addItem, updateQuantity, removeItem, clearCart, isInCart, getItem, increment, decrement])
 
   return <CartContext.Provider value={value}>{children}</CartContext.Provider>
 }
